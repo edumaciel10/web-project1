@@ -1,7 +1,15 @@
-<script setup lang="ts">
-import { RouterView } from 'vue-router'
+<script lang="ts">
+export default {
+  name: 'App'
+}
 </script>
 
 <template>
-  <RouterView />
+  <v-app>
+    <v-app-bar app color="primary" dark> ICMC </v-app-bar>
+    
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
