@@ -6,7 +6,7 @@ export default {
 
 <template>
   <v-app>
-    <v-app-bar color="blue-darken-4"> ICMC </v-app-bar>
+    <v-app-bar color="rgb(10, 44, 87)"> ICMC </v-app-bar>
 
     <v-main>
       <router-view />
