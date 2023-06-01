@@ -4,49 +4,32 @@ export default {
   data() {
     return {
       itemsPerPage: 10,
-      headers: undefined,
-      items: undefined,
+      headers: null,
+      items: null,
       customKeySort: {
-        data: (a, b) => this.compareDateStrings(a, b),
+        Data: (a, b) => this.compareDateStrings(a, b),
       },
     };
   },
   methods: {
     async loadDefesas() {
       const url = 'http://thanos.icmc.usp.br:4567/api/v1/defesas';
+
       const response = await fetch(url);
       const data = await response.json();
-      const { headers, items } = this.formatData(data);
-      this.headers = headers;
-      this.items = items;
-    },
 
-    formatData(data) {
-      return {
-        headers: this.formatHeaders(data.hs),
-        items: this.formatItems(data.items),
-      };
+      this.headers = this.formatHeaders(data.hs);
+
+      // Embaralha valores (os dados já estão ordenados por data na api)
+      this.items = data.items.sort(() => Math.random() - 0.5);
     },
 
     formatHeaders(headers) {
-      const formatedHeaders = headers.filter((header) => header.text !== 'Ordem').map((header) => ({
+      // Remove a coluna "ordem" e retorna os atributos compatíveis com o componente v-data-table.
+      return headers.filter((header) => header.text !== 'Ordem').map((header) => ({
         title: header.text,
-        key: header.text.toLowerCase(),
+        key: header.text,
         sortable: true,
-      }));
-
-      const [dateHeader] = formatedHeaders.filter((header) => header.key === 'data');
-      dateHeader.sort = (a, b) => this.compareDateStrings(a, b);
-
-      return formatedHeaders;
-    },
-
-    formatItems(items) {
-      return items.map((item) => ({
-        curso: item.Curso,
-        programa: item.Programa,
-        nome: item.Nome,
-        data: item.Data,
       }));
     },
 
