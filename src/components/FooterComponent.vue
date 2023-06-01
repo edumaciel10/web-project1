@@ -17,7 +17,7 @@ export default {
 </template>
 
 <style scoped>
-  .FooterComponent {
-    max-height: 100px;
-  }
+.FooterComponent {
+  max-height: 100px;
+}
 </style>
