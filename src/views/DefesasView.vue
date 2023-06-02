@@ -91,7 +91,7 @@ export default {
 </script>
 
 <template>
-  <v-container>
+  <v-container v-if="headers && filteredItems">
     <v-row>
       <v-col cols="6" hide-details>
         <v-text-field v-model="nomeFilter" label="Nome" hide-details />
@@ -121,7 +121,6 @@ export default {
     <v-row>
       <v-col>
         <v-data-table
-          v-if="headers && filteredItems"
           v-model:items-per-page="itemsPerPage"
           :headers="headers"
           :items="filteredItems"
@@ -134,4 +133,12 @@ export default {
       </v-col>
     </v-row>
   </v-container>
+
+  <v-conteiner v-else>
+    <v-row class="fill-height">
+      <v-col class="d-flex align-center justify-center">
+        <v-progress-circular class="" indeterminate :size="48" :width="6" color="var(--blue)" />
+      </v-col>
+    </v-row>
+  </v-conteiner>
 </template>
