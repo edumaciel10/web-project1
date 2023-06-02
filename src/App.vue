@@ -1,15 +1,16 @@
 <script lang="ts">
 import FooterComponent from './components/FooterComponent.vue';
+import HeaderComponent from './components/HeaderComponent.vue';
 
 export default {
   name: 'App',
-  components: { FooterComponent },
+  components: { FooterComponent, HeaderComponent },
 };
 </script>
 
 <template>
   <v-app>
-    <v-app-bar color="var(--blue)"> ICMC </v-app-bar>
+    <header-component />
 
     <v-main>
       <router-view />
