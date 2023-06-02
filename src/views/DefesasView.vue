@@ -134,11 +134,11 @@ export default {
     </v-row>
   </v-container>
 
-  <v-conteiner v-else>
-    <v-row class="fill-height">
+  <v-container v-else class="fill-height">
+    <v-row>
       <v-col class="d-flex align-center justify-center">
         <v-progress-circular class="" indeterminate :size="48" :width="6" color="var(--blue)" />
       </v-col>
     </v-row>
-  </v-conteiner>
+  </v-container>
 </template>
