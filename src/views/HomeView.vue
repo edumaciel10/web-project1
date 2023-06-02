@@ -4,6 +4,4 @@ export default {
 };
 </script>
 
-<template>
-  Home
-</template>
+<template>Home</template>

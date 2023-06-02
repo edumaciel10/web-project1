@@ -20,7 +20,7 @@ export default {
 </template>
 
 <style>
-  :root {
-    --blue: rgb(10, 44, 87);
-  }
+:root {
+  --blue: rgb(10, 44, 87);
+}
 </style>
