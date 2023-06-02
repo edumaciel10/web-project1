@@ -18,6 +18,6 @@ export default {
 
 <style scoped>
 .FooterComponent {
-  max-height: 100px;
+  max-height: 56px;
 }
 </style>
