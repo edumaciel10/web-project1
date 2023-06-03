@@ -1,12 +1,29 @@
 <script lang="ts">
+type DefesasType = {
+  Curso: string,
+  Programa: string,
+}
+type DataType = {
+  itemsPerPage: number,
+  customKeySort: Object,
+  nomeFilter: string,
+  headers: String[],
+  items: DefesasType[],
+  filteredItems: DefesasType[],
+  cursosFilterList: String[],
+  cursosList: String[],
+  programasFilterList: String[],
+  programasList: String[],
+}
 export default {
   name: 'DefesasView',
-  data() {
+
+  data(): DataType {
     return {
       itemsPerPage: 10,
-      headers: null,
-      items: null,
-      filteredItems: null,
+      headers: [],
+      items: [],
+      filteredItems: [],
       customKeySort: {
         Data: (a, b) => this.compareDateStrings(a, b),
       },
@@ -24,14 +41,18 @@ export default {
       const response = await fetch(url);
       const data = await response.json();
 
+      if(!data.items) {
+        return;
+      }
+
       this.headers = this.formatHeaders(data.hs);
       // Embaralha valores (os dados já estão ordenados por data na api)
       this.items = data.items.sort(() => Math.random() - 0.5);
       this.filteredItems = this.items;
 
       this.cursosList = this.items
-        .map((item) => item.Curso)
-        .filter((value, index, self) => self.indexOf(value) === index);
+        .map((item: {Curso: string}) => item.Curso)
+        .filter((value, index, self) : Boolean => self.indexOf(value) === index);
 
       this.programasList = this.items
         .map((item) => item.Programa)
@@ -50,7 +71,7 @@ export default {
         }));
     },
 
-    compareDateStrings(a, b) {
+    compareDateStrings(a: string, b: string) {
       const [dayA, monthA, yearA] = a.split('/');
       const [dayB, monthB, yearB] = b.split('/');
 
