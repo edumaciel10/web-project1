@@ -1,8 +1,6 @@
 <script lang="ts">
-type DefesasType = {
-  Curso: string,
-  Programa: string,
-}
+import type { DefesasType } from '@/utils/cursosType';
+
 type DataType = {
   itemsPerPage: number,
   customKeySort: Object,
@@ -14,7 +12,9 @@ type DataType = {
   cursosList: String[],
   programasFilterList: String[],
   programasList: String[],
-}
+  loading: boolean,
+  loadingText: string,
+};
 export default {
   name: 'DefesasView',
 
@@ -27,6 +27,8 @@ export default {
       customKeySort: {
         Data: (a, b) => this.compareDateStrings(a, b),
       },
+      loading: true,
+      loadingText: 'Carregando defesas...',
       nomeFilter: '',
       cursosFilterList: [],
       cursosList: [],
@@ -41,7 +43,9 @@ export default {
       const response = await fetch(url);
       const data = await response.json();
 
-      if(!data.items) {
+      if (!data.items) {
+        this.loading = false;
+        this.loadingText = 'Erro ao carregar defesas';
         return;
       }
 
@@ -51,12 +55,16 @@ export default {
       this.filteredItems = this.items;
 
       this.cursosList = this.items
-        .map((item: {Curso: string}) => item.Curso)
+        .map((item: { Curso: string }) => item.Curso)
         .filter((value, index, self) : Boolean => self.indexOf(value) === index);
 
       this.programasList = this.items
         .map((item) => item.Programa)
         .filter((value, index, self) => self.indexOf(value) === index);
+
+      // wait 2s
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      this.loading = false;
     },
 
     formatHeaders(headers) {
@@ -99,13 +107,21 @@ export default {
 
       return matchCurso && matchPrograma;
     },
+    rowClick(item, { item: row } : { item: { raw: DefesasType } }) {
+      console.log(item, row.raw);
 
+      const ordem = row.raw.Ordem;
+
+      this.$router.push(`/defesas/${ordem}`);
+    },
     updateFilters() {
       this.filteredItems = this.items.filter((item) => this.filterValue(item));
     },
   },
-
-  beforeMount() {
+  mounted() {
+    this.loading = true;
+    this.loadingText = 'Carregando defesas...';
+    console.log(this.$route.fullPath);
     this.loadDefesas();
   },
 };
@@ -142,6 +158,9 @@ export default {
     <v-row>
       <v-col>
         <v-data-table
+          :loading="loading"
+          :loading-text="loadingText"
+          :on-click:row="rowClick"
           v-model:items-per-page="itemsPerPage"
           :headers="headers"
           :items="filteredItems"
@@ -163,3 +182,9 @@ export default {
     </v-row>
   </v-container>
 </template>
+
+<style>
+.v-data-table__tr {
+  cursor: pointer;
+}
+</style>
