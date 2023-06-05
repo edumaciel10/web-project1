@@ -2,18 +2,18 @@
 import type { DefesasType } from '@/utils/cursosType';
 
 type DataType = {
-  itemsPerPage: number,
-  customKeySort: Object,
-  nomeFilter: string,
-  headers: String[],
-  items: DefesasType[],
-  filteredItems: DefesasType[],
-  cursosFilterList: String[],
-  cursosList: String[],
-  programasFilterList: String[],
-  programasList: String[],
-  loading: boolean,
-  loadingText: string,
+  itemsPerPage: number;
+  customKeySort: Object;
+  nomeFilter: string;
+  headers: String[];
+  items: DefesasType[];
+  filteredItems: DefesasType[];
+  cursosFilterList: String[];
+  cursosList: String[];
+  programasFilterList: String[];
+  programasList: String[];
+  loading: boolean;
+  loadingText: string;
 };
 export default {
   name: 'DefesasView',
@@ -50,14 +50,18 @@ export default {
       }
 
       this.headers = this.formatHeaders(data.hs);
+
       // Embaralha valores (os dados já estão ordenados por data na api)
+      // Pode causar má impressão na usabilidade
       this.items = data.items.sort(() => Math.random() - 0.5);
       this.filteredItems = this.items;
 
+      // Obtém lista dos cursos (distinct).
       this.cursosList = this.items
         .map((item: { Curso: string }) => item.Curso)
-        .filter((value, index, self) : Boolean => self.indexOf(value) === index);
+        .filter((value, index, self): Boolean => self.indexOf(value) === index);
 
+      // Obtém lista dos programas (distinct).
       this.programasList = this.items
         .map((item) => item.Programa)
         .filter((value, index, self) => self.indexOf(value) === index);
@@ -93,6 +97,8 @@ export default {
       let matchCurso;
       let matchPrograma;
 
+      // Se as listas com os filtros selecionados estão vazias, passa.
+      // Se não, verifica se o curso e o programa do item estão nas listas com os filtros.
       if (this.cursosFilterList.length === 0) {
         matchCurso = true;
       } else {
@@ -107,9 +113,7 @@ export default {
 
       return matchCurso && matchPrograma;
     },
-    rowClick(item, { item: row } : { item: { raw: DefesasType } }) {
-      console.log(item, row.raw);
-
+    rowClick(item, { item: row }: { item: { raw: DefesasType } }) {
       const ordem = row.raw.Ordem;
 
       this.$router.push(`/defesas/${ordem}`);
@@ -121,7 +125,6 @@ export default {
   mounted() {
     this.loading = true;
     this.loadingText = 'Carregando defesas...';
-    console.log(this.$route.fullPath);
     this.loadDefesas();
   },
 };

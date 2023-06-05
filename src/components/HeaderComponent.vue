@@ -24,8 +24,8 @@ export default {
 </template>
 
 <style scoped>
-  .v-app-bar {
-    padding-left: 64px;
-    padding-right: 64px;
-  }
+.v-app-bar {
+  padding-left: 64px;
+  padding-right: 64px;
+}
 </style>

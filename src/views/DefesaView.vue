@@ -22,8 +22,6 @@ export default {
         (item) => item.Ordem.toString() === Ordem.toString(),
       );
 
-      console.log(selectedCurso);
-
       this.Defesa = selectedCurso;
     },
   },
@@ -49,7 +47,7 @@ export default {
         </v-list-item>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>Data de nascimento: {{ Defesa.Data }}</v-list-item-title>
+            <v-list-item-title>Data da defesa: {{ Defesa.Data }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -64,19 +62,14 @@ export default {
         </v-list-item>
       </v-card-text>
     </v-card>
-    <v-btn color="blue" to="/defesas" min-width="100%">Voltar</v-btn>
-
+    <v-btn color="var(--blue)" class="text-white" to="/defesas" min-width="100%">Voltar</v-btn>
   </v-container>
   <v-container v-else>
     <v-card>
-      <v-skeleton-loader
-        elevation="12"
-        type="subtitle, list-item, list-item, list-item"
-      />
+      <v-skeleton-loader elevation="12" type="subtitle, list-item, list-item, list-item" />
     </v-card>
-    <v-btn color="blue" to="/defesas" min-width="100%">Voltar</v-btn>
+    <v-btn color="var(--blue)" class="text-white" to="/defesas" min-width="100%">Voltar</v-btn>
   </v-container>
-
 </template>
 
 <style>
